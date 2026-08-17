@@ -18,7 +18,7 @@ import (
 // @contact.name   API Support
 // @contact.email  support@sequspace.com
 
-// @host      localhost:4006
+// @host      localhost:4009
 // @BasePath  /api/v1
 
 // @securityDefinitions.apikey BearerAuth

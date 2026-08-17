@@ -1,0 +1,7 @@
+.git
+.gitignore
+.env
+uploads
+*.log
+*.tmp
+README.md

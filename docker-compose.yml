@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sequ-achievement-api
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      # Use host machine MySQL from inside container
+      DB_HOST: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "4009:4009"
+    volumes:
+      - ./uploads:/app/uploads

@@ -1,10 +1,11 @@
 basePath: /api/v1
-host: localhost:4006
+host: localhost:4009
 info:
   contact:
     email: support@sequspace.com
     name: API Support
-  description: This is the microservice for Sequspace achievements, handling shining
+  description:
+    This is the microservice for Sequspace achievements, handling shining
     stars and other awards.
   termsOfService: http://swagger.io/terms/
   title: Sequspace Achievements API
@@ -14,7 +15,7 @@ paths:
     get:
       description: Get a list of all shining stars across the system
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -28,36 +29,38 @@ paths:
             type: object
       summary: Get all shining stars
       tags:
-      - achievements
+        - achievements
     post:
       consumes:
-      - multipart/form-data
-      description: Create a new shining star achievement for a user with a certificate
+        - multipart/form-data
+      description:
+        Create a new shining star achievement for a user with a certificate
         upload
       parameters:
-      - description: User ID
-        in: formData
-        name: user_id
-        required: true
-        type: integer
-      - description: Achievement Type (e.g. Task Master, Consistency Star, Speed Performer,
-          Deadline Champion, Productivity Pro)
-        in: formData
-        name: type
-        required: true
-        type: string
-      - description: Description
-        in: formData
-        name: description
-        required: true
-        type: string
-      - description: Certificate File
-        in: formData
-        name: certificate
-        required: true
-        type: file
+        - description: User ID
+          in: formData
+          name: user_id
+          required: true
+          type: integer
+        - description:
+            Achievement Type (e.g. Task Master, Consistency Star, Speed Performer,
+            Deadline Champion, Productivity Pro)
+          in: formData
+          name: type
+          required: true
+          type: string
+        - description: Description
+          in: formData
+          name: description
+          required: true
+          type: string
+        - description: Certificate File
+          in: formData
+          name: certificate
+          required: true
+          type: file
       produces:
-      - application/json
+        - application/json
       responses:
         "201":
           description: Created
@@ -81,18 +84,18 @@ paths:
             type: object
       summary: Create a new shining star achievement
       tags:
-      - achievements
+        - achievements
   /achievements/shining-star/{user_id}:
     get:
       description: Get a list of shining stars for a specific user
       parameters:
-      - description: User ID
-        in: path
-        name: user_id
-        required: true
-        type: integer
+        - description: User ID
+          in: path
+          name: user_id
+          required: true
+          type: integer
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -111,7 +114,7 @@ paths:
             type: object
       summary: Get user's shining stars
       tags:
-      - achievements
+        - achievements
 securityDefinitions:
   BearerAuth:
     in: header

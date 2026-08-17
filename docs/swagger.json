@@ -1,169 +1,155 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "This is the microservice for Sequspace achievements, handling shining stars and other awards.",
-        "title": "Sequspace Achievements API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "email": "support@sequspace.com"
-        },
-        "version": "1.0"
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the microservice for Sequspace achievements, handling shining stars and other awards.",
+    "title": "Sequspace Achievements API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "API Support",
+      "email": "support@sequspace.com"
     },
-    "host": "localhost:4006",
-    "basePath": "/api/v1",
-    "paths": {
-        "/achievements/shining-star": {
-            "get": {
-                "description": "Get a list of all shining stars across the system",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "achievements"
-                ],
-                "summary": "Get all shining stars",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a new shining star achievement for a user with a certificate upload",
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "achievements"
-                ],
-                "summary": "Create a new shining star achievement",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Achievement Type (e.g. Task Master, Consistency Star, Speed Performer, Deadline Champion, Productivity Pro)",
-                        "name": "type",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Description",
-                        "name": "description",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "Certificate File",
-                        "name": "certificate",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
+    "version": "1.0"
+  },
+  "host": "localhost:4009",
+  "basePath": "/api/v1",
+  "paths": {
+    "/achievements/shining-star": {
+      "get": {
+        "description": "Get a list of all shining stars across the system",
+        "produces": ["application/json"],
+        "tags": ["achievements"],
+        "summary": "Get all shining stars",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
             }
-        },
-        "/achievements/shining-star/{user_id}": {
-            "get": {
-                "description": "Get a list of shining stars for a specific user",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "achievements"
-                ],
-                "summary": "Get user's shining stars",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
             }
+          }
         }
+      },
+      "post": {
+        "description": "Create a new shining star achievement for a user with a certificate upload",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "tags": ["achievements"],
+        "summary": "Create a new shining star achievement",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "User ID",
+            "name": "user_id",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Achievement Type (e.g. Task Master, Consistency Star, Speed Performer, Deadline Champion, Productivity Pro)",
+            "name": "type",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Description",
+            "name": "description",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "Certificate File",
+            "name": "certificate",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      }
     },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
+    "/achievements/shining-star/{user_id}": {
+      "get": {
+        "description": "Get a list of shining stars for a specific user",
+        "produces": ["application/json"],
+        "tags": ["achievements"],
+        "summary": "Get user's shining stars",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "User ID",
+            "name": "user_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
         }
+      }
     }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
 }
