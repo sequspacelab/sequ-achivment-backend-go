@@ -8,11 +8,11 @@ services:
     env_file:
       - ./.env
     environment:
-      # Use host machine MySQL from inside container
       DB_HOST: host.docker.internal
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
       - "4009:4009"
     volumes:
+      - ./.env:/app/.env:ro
       - ./uploads:/app/uploads
