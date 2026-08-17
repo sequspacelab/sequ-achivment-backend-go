@@ -4,8 +4,7 @@ package docs
 import "github.com/swaggo/swag"
 
 const docTemplate = `{
-    "schemes": {{ marshal .Schemes }},
-    "swagger": "2.0",
+    "openapi": "3.0.3",
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
@@ -16,8 +15,20 @@ const docTemplate = `{
         },
         "version": "{{.Version}}"
     },
-    "host": "{{.Host}}",
-    "basePath": "{{.BasePath}}",
+    "servers": [
+        {
+            "url": "https://sequachievementapi.sequspace.com/api/v1",
+            "description": "production server"
+        },
+        {
+            "url": "http://localhost:{port}/api/v1",
+            "variables": {
+                "port": {
+                    "default": "4005"
+                }
+            }
+        }
+    ],
     "paths": {
         "/achievements/shining-star": {
             "get": {
@@ -163,13 +174,6 @@ const docTemplate = `{
                     }
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }`

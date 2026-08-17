@@ -1,5 +1,4 @@
-basePath: /api/v1
-host: localhost:4009
+openapi: 3.0.3
 info:
   contact:
     email: support@sequspace.com
@@ -10,6 +9,13 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Sequspace Achievements API
   version: "1.0"
+servers:
+  - url: "https://sequachievementapi.sequspace.com/api/v1"
+    description: "production server"
+  - url: "http://localhost:{port}/api/v1"
+    variables:
+      port:
+        default: "4005"
 paths:
   /achievements/shining-star:
     get:
@@ -114,10 +120,10 @@ paths:
             type: object
       summary: Get user's shining stars
       tags:
-        - achievements
-securityDefinitions:
-  BearerAuth:
-    in: header
-    name: Authorization
-    type: apiKey
-swagger: "2.0"
+      - achievements
+components:
+  securitySchemes:
+    BearerAuth:
+      in: header
+      name: Authorization
+      type: apiKey
