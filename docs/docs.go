@@ -24,7 +24,7 @@ const docTemplate = `{
             "url": "http://localhost:{port}/api/v1",
             "variables": {
                 "port": {
-                    "default": "4005"
+                    "default": "4006"
                 }
             }
         }
@@ -59,46 +59,42 @@ const docTemplate = `{
             },
             "post": {
                 "description": "Create a new shining star achievement for a user with a certificate upload",
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "achievements"
                 ],
                 "summary": "Create a new shining star achievement",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "user_id",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Achievement Type (e.g. Task Master, Consistency Star, Speed Performer, Deadline Champion, Productivity Pro)",
-                        "name": "type",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Description",
-                        "name": "description",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "Certificate File",
-                        "name": "certificate",
-                        "in": "formData",
-                        "required": true
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["user_id", "type", "description", "certificate"],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "description": "User ID",
+                                        "example": 1
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Achievement Type",
+                                        "enum": ["Task Master", "Consistency Star", "Speed Performer", "Deadline Champion", "Productivity Pro"]
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "Description of the achievement"
+                                    },
+                                    "certificate": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "Certificate file to upload"
+                                    }
+                                }
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "Created",

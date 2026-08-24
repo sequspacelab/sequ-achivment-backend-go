@@ -30,8 +30,35 @@ import (
 // @Router       /achievements/shining-star [post]
 func CreateShiningStar(c *gin.Context) {
 	userIDStr := c.PostForm("user_id")
+	if userIDStr == "" {
+		userIDStr = c.PostForm("userId") // Fallback for camelCase
+	}
+	if userIDStr == "" {
+		userIDStr = c.Query("user_id") // Fallback to query params
+	}
+
 	achievementTypeStr := c.PostForm("type")
 	description := c.PostForm("description")
+
+	// Fallback to JSON if the client mistakenly sends application/json instead of multipart/form-data
+	if c.ContentType() == "application/json" {
+		var body map[string]interface{}
+		if err := c.ShouldBindJSON(&body); err == nil {
+			if val, ok := body["user_id"]; ok && userIDStr == "" {
+				userIDStr = fmt.Sprintf("%v", val)
+			}
+			if val, ok := body["userId"]; ok && userIDStr == "" {
+				userIDStr = fmt.Sprintf("%v", val)
+			}
+			if val, ok := body["type"]; ok && achievementTypeStr == "" {
+				achievementTypeStr = fmt.Sprintf("%v", val)
+			}
+			if val, ok := body["description"]; ok && description == "" {
+				description = fmt.Sprintf("%v", val)
+			}
+		}
+	}
+
 	file, _ := c.FormFile("certificate")
 
 	userID, achievementType, err := validations.ValidateShiningStarInput(userIDStr, achievementTypeStr, description, file)

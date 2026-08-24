@@ -4,6 +4,7 @@ import (
 	"errors"
 	"mime/multipart"
 	"strconv"
+	"strings"
 	"sequAcc/models"
 )
 
@@ -27,6 +28,9 @@ func ValidateShiningStarInput(userIDStr, achievementType, description string, fi
 		return 0, "", errors.New("invalid or missing achievement type")
 	}
 
+	userIDStr = strings.TrimSpace(userIDStr)
+	userIDStr = strings.Trim(userIDStr, "\"") // Handle literal quotes sometimes sent by FormData
+	
 	userID, err := strconv.ParseUint(userIDStr, 10, 32)
 	if err != nil {
 		return 0, "", errors.New("invalid user_id format")
