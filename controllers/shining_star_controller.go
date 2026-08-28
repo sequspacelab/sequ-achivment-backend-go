@@ -28,7 +28,7 @@ import (
 // @Param        user_id formData int true "User ID"
 // @Param        type formData string true "Achievement Type (e.g. Task Master, Consistency Star, Speed Performer, Deadline Champion, Productivity Pro)"
 // @Param        description formData string true "Description"
-// @Param        certificate formData file true "Certificate File"
+// @Param        certificate formData file false "Certificate File"
 // @Success      201  {object}  map[string]interface{}
 // @Failure      400  {object}  map[string]interface{}
 // @Failure      401  {object}  map[string]interface{}
@@ -82,63 +82,66 @@ func CreateShiningStar(c *gin.Context) {
 		}
 	}
 
-	// Generate a unique filename
-	ext := filepath.Ext(file.Filename)
-	filename := fmt.Sprintf("%d_%d%s", userID, time.Now().UnixNano(), ext)
-	
-	// Open the uploaded file
-	f, err := file.Open()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to open certificate file"})
-		return
-	}
-	defer f.Close()
-
-	// Load AWS/S3 Config
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion(os.Getenv("AWS_REGION")),
-		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-			os.Getenv("AWS_ACCESS_KEY_ID"),
-			os.Getenv("AWS_SECRET_ACCESS_KEY"),
-			"",
-		)),
-	)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load s3 config"})
-		return
-	}
-
-	// Create S3 client
-	client := s3.NewFromConfig(cfg, func(o *s3.Options) {
-		if endpoint := os.Getenv("AWS_ENDPOINT"); endpoint != "" {
-			o.BaseEndpoint = aws.String(endpoint)
-			o.UsePathStyle = true // Common requirement for non-AWS S3 storage (like Hetzner, MinIO)
-		}
-	})
-
-	bucket := os.Getenv("AWS_S3_BUCKET")
-	if bucket == "" {
-		bucket = "vertex" // Fallback bucket
-	}
-
-	// Upload to S3
-	_, err = client.PutObject(context.TODO(), &s3.PutObjectInput{
-		Bucket: aws.String(bucket),
-		Key:    aws.String("certificates/" + filename),
-		Body:   f,
-		ContentType: aws.String(file.Header.Get("Content-Type")), // Pass the correct content type
-	})
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to upload certificate to S3"})
-		return
-	}
-
-	// Construct public URL
 	var certificateURL string
-	if endpoint := os.Getenv("AWS_ENDPOINT"); endpoint != "" {
-		certificateURL = fmt.Sprintf("%s/%s/certificates/%s", endpoint, bucket, filename)
-	} else {
-		certificateURL = fmt.Sprintf("https://%s.s3.%s.amazonaws.com/certificates/%s", bucket, os.Getenv("AWS_REGION"), filename)
+	
+	if file != nil {
+		// Generate a unique filename
+		ext := filepath.Ext(file.Filename)
+		filename := fmt.Sprintf("%d_%d%s", userID, time.Now().UnixNano(), ext)
+		
+		// Open the uploaded file
+		f, err := file.Open()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to open certificate file"})
+			return
+		}
+		defer f.Close()
+
+		// Load AWS/S3 Config
+		cfg, err := config.LoadDefaultConfig(context.TODO(),
+			config.WithRegion(os.Getenv("AWS_REGION")),
+			config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
+				os.Getenv("AWS_ACCESS_KEY_ID"),
+				os.Getenv("AWS_SECRET_ACCESS_KEY"),
+				"",
+			)),
+		)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load s3 config"})
+			return
+		}
+
+		// Create S3 client
+		client := s3.NewFromConfig(cfg, func(o *s3.Options) {
+			if endpoint := os.Getenv("AWS_ENDPOINT"); endpoint != "" {
+				o.BaseEndpoint = aws.String(endpoint)
+				o.UsePathStyle = true // Common requirement for non-AWS S3 storage (like Hetzner, MinIO)
+			}
+		})
+
+		bucket := os.Getenv("AWS_S3_BUCKET")
+		if bucket == "" {
+			bucket = "vertex" // Fallback bucket
+		}
+
+		// Upload to S3
+		_, err = client.PutObject(context.TODO(), &s3.PutObjectInput{
+			Bucket: aws.String(bucket),
+			Key:    aws.String("certificates/" + filename),
+			Body:   f,
+			ContentType: aws.String(file.Header.Get("Content-Type")), // Pass the correct content type
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to upload certificate to S3"})
+			return
+		}
+
+		// Construct public URL
+		if endpoint := os.Getenv("AWS_ENDPOINT"); endpoint != "" {
+			certificateURL = fmt.Sprintf("%s/%s/certificates/%s", endpoint, bucket, filename)
+		} else {
+			certificateURL = fmt.Sprintf("https://%s.s3.%s.amazonaws.com/certificates/%s", bucket, os.Getenv("AWS_REGION"), filename)
+		}
 	}
 
 	achievement := models.ShiningStar{

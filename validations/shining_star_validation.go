@@ -35,11 +35,10 @@ func ValidateShiningStarInput(userIDStr, achievementType, description string, fi
 	if err != nil {
 		return 0, "", errors.New("invalid user_id format")
 	}
-	if file == nil {
-		return 0, "", errors.New("certificate file is required")
-	}
-	if file.Size > 10*1024*1024 {
-		return 0, "", errors.New("file size exceeds 10MB limit")
+	if file != nil {
+		if file.Size > 10*1024*1024 {
+			return 0, "", errors.New("file size exceeds 10MB limit")
+		}
 	}
 	return userID, parsedType, nil
 }

@@ -69,7 +69,7 @@ const docTemplate = `{
                         "multipart/form-data": {
                             "schema": {
                                 "type": "object",
-                                "required": ["user_id", "type", "description", "certificate"],
+                                "required": ["user_id", "type", "description"],
                                 "properties": {
                                     "user_id": {
                                         "type": "integer",
