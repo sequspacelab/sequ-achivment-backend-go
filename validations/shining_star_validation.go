@@ -20,7 +20,7 @@ func ValidateShiningStarInput(userIDStr, achievementType, description string, fi
 	validType := false
 	parsedType := models.AchievementType(achievementType)
 	switch parsedType {
-	case models.TypeTaskMaster, models.TypeConsistencyStar, models.TypeSpeedPerformer, models.TypeDeadlineChampion, models.TypeProductivityPro:
+	case models.TypeTaskMaster, models.TypeConsistencyStar, models.TypeSpeedPerformer, models.TypeDeadlineChampion, models.TypeProductivityPro, models.Type1TripAround:
 		validType = true
 	}
 

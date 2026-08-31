@@ -26,7 +26,7 @@ import (
 // @Accept       multipart/form-data
 // @Produce      json
 // @Param        user_id formData int true "User ID"
-// @Param        type formData string true "Achievement Type (e.g. Task Master, Consistency Star, Speed Performer, Deadline Champion, Productivity Pro)"
+// @Param        type formData string true "Achievement Type (e.g. Task Master, Consistency Star, Speed Performer, Deadline Champion, Productivity Pro, 1 trip around)"
 // @Param        description formData string true "Description"
 // @Param        certificate formData file false "Certificate File"
 // @Success      201  {object}  map[string]interface{}

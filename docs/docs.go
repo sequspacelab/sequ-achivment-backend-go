@@ -79,7 +79,7 @@ const docTemplate = `{
                                     "type": {
                                         "type": "string",
                                         "description": "Achievement Type",
-                                        "enum": ["Task Master", "Consistency Star", "Speed Performer", "Deadline Champion", "Productivity Pro"]
+                                        "enum": ["Task Master", "Consistency Star", "Speed Performer", "Deadline Champion", "Productivity Pro", "1 trip around"]
                                     },
                                     "description": {
                                         "type": "string",

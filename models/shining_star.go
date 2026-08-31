@@ -12,6 +12,7 @@ const (
 	TypeSpeedPerformer   AchievementType = "Speed Performer"
 	TypeDeadlineChampion AchievementType = "Deadline Champion"
 	TypeProductivityPro  AchievementType = "Productivity Pro"
+	Type1TripAround      AchievementType = "1 trip around"
 )
 
 type ShiningStar struct {
